@@ -1,5 +1,7 @@
 Feature: Kullanici gecerli bilgilerler sisteme giris yapabilir
 
+
+  @regression @smoke @wip # Work In Progress
   Scenario: TC08 Gecerli bilgilerle sisteme giris yapabilmeli
     Given kullanici "toURL" anasayfaya gider
     Then account butonuna basar
