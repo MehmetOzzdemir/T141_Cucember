@@ -14,6 +14,9 @@ import org.junit.platform.suite.api.Suite;
 @ConfigurationParameter(key = Constants.FEATURES_PROPERTY_NAME,value = "src/test/resources/feautures/wip")
 @ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME,value = "stepdefinitions")
 //@ConfigurationParameter(key = Constants.FILTER_TAGS_PROPERTY_NAME,value = "@wip")
+@ConfigurationParameter(key = Constants.EXECUTION_DRY_RUN_PROPERTY_NAME,value = "false")
+@ConfigurationParameter(key = Constants.PLUGIN_PROPERTY_NAME,value = "pretty, html:target/cucumber-report/ExceldeUrunleriTopluAramaTestReport.html")
+
 
 public class Runner {
     /*
@@ -25,5 +28,11 @@ public class Runner {
         ve feature dosyalari ile stepdefinitions class larini irtibatlandirmak icin
         notasyonlar kullanacagiz
 
+
+         dry run = true secildiginde kodlari calistirmaya gayret etmez
+                       SADECE eksik adim var mi diye kontrol eder
+                       ve varsa eksik adimlari bizim icin olusturur
+                       Eksik adim yoksa KODLARI CALISTIRMAZ,
+                       eksik adim kalmadigini soylemek icin test passed yazdirir
      */
 }

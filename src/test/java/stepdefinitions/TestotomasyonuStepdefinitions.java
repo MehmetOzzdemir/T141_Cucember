@@ -4,6 +4,10 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.sl.In;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
 import pages.TestotomasyonuPage;
@@ -11,8 +15,14 @@ import utilities.ConfigReader;
 import utilities.Driver;
 import utilities.ReusableMethods;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
 public class TestotomasyonuStepdefinitions {
     TestotomasyonuPage testotomasyonuPage = new TestotomasyonuPage();
+    String exceldeArananUrunIsmi;
+    double exceldeArananUrunMinSonucSayisi;
+    double aramaSonucundaBulunanSonucSayisi;
 
     @Given("kullanici testotomasyonu anasayfaya gider")
     public void kullanici_testotomasyonu_anasayfaya_gider() {
@@ -101,6 +111,55 @@ public class TestotomasyonuStepdefinitions {
 
     @Then("giris yapilamadigini test eder")
     public void girisYapilamadiginiTestEder() {
-        Assertions.assertTrue(testotomasyonuPage.loginSigninButton.isDisplayed());
+        try {
+            Assertions.assertTrue(testotomasyonuPage.loginSigninButton.isDisplayed());
+        } catch (Exception e) {
+            testotomasyonuPage.logoutButton.click();
+            Driver.quitDriver();
+            //failed olan assertion i try catch ile handle ettik
+            //logout yaptiktan sonra yeniden testi FAİLED etmemiz gerekir
+            Assertions.assertTrue(false);
+        }
+    }
+
+    @When("email olarak direk verilen {string} girer")
+    public void emailOlarakDirekVerilenGirer(String direkVerilenEmail) {
+        testotomasyonuPage.loginEmailBox.sendKeys(direkVerilenEmail);
+    }
+
+    @And("password olarak direk verilen {string} girer")
+    public void passwordOlarakDirekVerilenGirer(String direkVerilenPassword) {
+        testotomasyonuPage.loginPasswordBox.sendKeys(direkVerilenPassword);
+    }
+
+    @Then("urun excelindeki {string} daki urunun min. miktarini ve urun ismini kaydeder")
+    public void urunExcelindekiDakiUrununMinMiktariniVeUrunIsminiKaydeder(String satirNoStr) throws IOException {
+        String sourcePath = "src/test/resources/urunListesi.xlsx";
+        FileInputStream fileInputStream = new FileInputStream(sourcePath);
+        Workbook workbook = WorkbookFactory.create(fileInputStream);
+
+        Sheet sheet1 = workbook.getSheet("Sheet1");
+        int satirNo = Integer.parseInt(satirNoStr);
+
+        exceldeArananUrunIsmi = sheet1.getRow(satirNo - 1).getCell(0).toString();
+
+        exceldeArananUrunMinSonucSayisi = sheet1.getRow(satirNo - 1).getCell(1).getNumericCellValue();
+
+    }
+
+    @And("urun ismini testotomasyonu sayfasinda arar ve sonuc sayisini kaydeder")
+    public void urunIsminiTestotomasyonuSayfasindaArarVeSonucSayisiniKaydeder() {
+        testotomasyonuPage.searchBox.sendKeys(exceldeArananUrunIsmi + Keys.ENTER);
+
+        String resultStr = testotomasyonuPage.searchElement.getText();
+
+        resultStr = resultStr.replaceAll("\\D", "");
+        aramaSonucundaBulunanSonucSayisi = Double.parseDouble(resultStr);
+
+    }
+
+    @And("bulunan urun sayisinin {string} da verilen min. miktara esit veya daha fazla oldugunu test eder")
+    public void bulunanUrunSayisininDaVerilenMinMiktaraEsitVeyaDahaFazlaOldugunuTestEder(String satirNoStr) {
+        Assertions.assertTrue(aramaSonucundaBulunanSonucSayisi >= exceldeArananUrunMinSonucSayisi);
     }
 }
