@@ -1,4 +1,5 @@
 Feature:
+  @smoke
   Scenario:
     Given kullanici "webUniUrl" anasayfaya gider
     Then Login Portal a  kadar asagi iner
