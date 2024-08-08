@@ -1,3 +1,4 @@
+@smoke
 Feature: US1001 TestOtomasyonu search test
 
   Scenario: TC01 Kullanici sitede phone aratabilmeli

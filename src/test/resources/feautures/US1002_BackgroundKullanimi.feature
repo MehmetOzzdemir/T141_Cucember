@@ -11,7 +11,7 @@ Feature: US1002 Kullanici scenario baslarindki ortak adimlari Backgroung ile kul
     Then arama sonucunda urun bulunabildigini test eder
     And sayfayi kapatir
 
-
+@E2E
   Scenario: TC05 Kullanici Sitede dress aratabilmeli
 
 

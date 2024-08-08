@@ -162,4 +162,12 @@ public class TestotomasyonuStepdefinitions {
     public void bulunanUrunSayisininDaVerilenMinMiktaraEsitVeyaDahaFazlaOldugunuTestEder(String satirNoStr) {
         Assertions.assertTrue(aramaSonucundaBulunanSonucSayisi >= exceldeArananUrunMinSonucSayisi);
     }
+
+    @And("arama sonucunda urun bulunamadigini test eder")
+    public void aramaSonucundaUrunBulunamadiginiTestEder() {
+
+        String expectedSearchResult = "0 Products Found";
+        String actualSearchResult = testotomasyonuPage.searchElement.getText();
+        Assertions.assertEquals(expectedSearchResult, actualSearchResult);
+    }
 }

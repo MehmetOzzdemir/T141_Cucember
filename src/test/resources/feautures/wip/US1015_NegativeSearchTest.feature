@@ -5,7 +5,7 @@
 Feature: US1015 Negatif arama testi
 
   Scenario Outline: TC21 verilen kelimeler sitede bulunamamali
-    Given kullanici "toUrl" anasayfaya gider
+    Given kullanici "toURL" anasayfaya gider
     Then arama kutusuna "<aranacakKelime>" yazip aratir
     And arama sonucunda urun bulunamadigini test eder
 
