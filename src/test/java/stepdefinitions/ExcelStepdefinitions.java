@@ -117,7 +117,7 @@ public class ExcelStepdefinitions {
             String turkishCountryName = sayfa1.getRow(i).getCell(2).toString();
             String turkishCenterName = sayfa1.getRow(i).getCell(3).toString();
 
-            geriyeKalanBilgilerMapi.put("centuryEng", englishCenterName);
+            geriyeKalanBilgilerMapi.put("centerEng", englishCenterName);
             geriyeKalanBilgilerMapi.put("countryTurkish", turkishCountryName);
             geriyeKalanBilgilerMapi.put("centerTurkish", turkishCenterName);
 
@@ -141,24 +141,27 @@ public class ExcelStepdefinitions {
         //baskent ismi jakarta olan ulkenin tum bilgilerini yazdirmak icin
         //key ve vale ye ihtiyacimiz var
 
-        Set<String> ulkelerMapiKeySet = ulkelerMapi.keySet();
+        Set<String> ulkelerMapiKeySeti = ulkelerMapi.keySet();
+        // [Afghanistan, Albania, Algeria, Andorra, Angola,......]
 
-        for (String ulkeIsmi : ulkelerMapiKeySet) {
+        for (String ulkeIsmi : ulkelerMapiKeySeti
+        ) {
+
             // ulkeIsminin value'sundeki ingilizce baskent ismi jakarta mi diye bakalim
-            String ulkeninIngilizceBaskenti = ulkelerMapi.get(ulkeIsmi).get("baskentIng");
+            String ulkeninIngilizceBaskenti = ulkelerMapi.get(ulkeIsmi).get("centerEng");
 
-            if (ulkeninIngilizceBaskenti.equalsIgnoreCase("jakarta")) {
+            if (ulkeninIngilizceBaskenti.equalsIgnoreCase("Jakarta")) {
 
                 System.out.println(
                         "ulke ingilizce ismi  : " + ulkeIsmi +
                                 "\nulke ingilizce baskenti : " + ulkeninIngilizceBaskenti +
-                                "\nulke turkce ismi : " + ulkelerMapi.get(ulkeIsmi).get("ulkeTurkce") +
-                                "\nulke turkce baskent : " + ulkelerMapi.get(ulkeIsmi).get("baskentTurkce")
+                                "\nulke turkce ismi : " + ulkelerMapi.get(ulkeIsmi).get("countryTurkish") +
+                                "\nulke turkce baskent : " + ulkelerMapi.get(ulkeIsmi).get("centerTurkish")
 
                 );
             }
-        }
 
+        }
 
     }
 
